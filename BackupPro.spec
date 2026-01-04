@@ -1,7 +1,7 @@
 # -*- mode: python ; coding: utf-8 -*-
 from PyInstaller.utils.hooks import collect_all
 
-datas = [('back_up.ico', '.')]
+datas = [('back_up_dark.ico', '.'), ('back_up_light.ico', '.')]
 binaries = []
 hiddenimports = ['win32com', 'paramiko']
 tmp_ret = collect_all('customtkinter')
@@ -42,5 +42,6 @@ exe = EXE(
     target_arch=None,
     codesign_identity=None,
     entitlements_file=None,
+    version='file_version_info.txt',
     icon=['back_up.ico'],
 )
