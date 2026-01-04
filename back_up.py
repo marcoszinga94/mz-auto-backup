@@ -59,7 +59,6 @@ class BackupPro(ctk.CTk):
         self.after(2000, self.check_and_run_daily_backup)
 
     def write_log(self, message):
-        """ Escribe un evento en el archivo log con marca de tiempo """
         timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         try:
             with open(self.log_file, "a", encoding="utf-8") as f:
@@ -67,7 +66,6 @@ class BackupPro(ctk.CTk):
         except: pass
 
     def update_icon(self):
-        """ Cambia el icono según el modo oscuro o claro """
         try:
             icon_file = "back_up_light.ico" if self.is_dark_mode.get() else "back_up_dark.ico"
             icon_res = resource_path(icon_file)
