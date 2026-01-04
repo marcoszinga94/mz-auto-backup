@@ -11,7 +11,6 @@ from pathlib import Path
 import win32com.client 
 
 def resource_path(relative_path):
-    """ Gestiona rutas para .py y .exe sin errores """
     try:
         base_path = sys._MEIPASS # type: ignore
     except AttributeError:
@@ -26,14 +25,14 @@ class BackupPro(ctk.CTk):
         raw_appdata = os.getenv('APPDATA')
         base_path = Path(raw_appdata) if raw_appdata else Path.home() / "AppData" / "Roaming"
 
-        self.appdata_dir = base_path / "BackupPro"
+        self.appdata_dir = base_path / "Backup Pro"
         self.appdata_dir.mkdir(parents=True, exist_ok=True)
         self.config_file = str(self.appdata_dir / "config.json")
         self.log_file = self.appdata_dir / "backup_log.txt"
 
         # --- CONFIGURACIÓN VENTANA ---
-        self.title("Backup Pro + SFTP & Logs")
-        self.geometry("650x670")
+        self.title("Backup Pro")
+        self.geometry("550x500")
 
         # --- VARIABLES TKINTER ---
         self.source_path = ctk.StringVar(value="No seleccionado")
@@ -75,16 +74,15 @@ class BackupPro(ctk.CTk):
             self.write_log(f"Error actualizando icono: {e}")
 
     def init_ui(self):
-        self.label_title = ctk.CTkLabel(self, text="Backup Diario SFTP", font=ctk.CTkFont(size=22, weight="bold"))
+        self.label_title = ctk.CTkLabel(self, text="Software de Backup Local y Remoto", font=ctk.CTkFont(size=22, weight="bold"))
         self.label_title.pack(pady=15)
 
+        # Botón de Mono Claro/Oscuro
         self.theme_switch = ctk.CTkSwitch(self, text="Modo Oscuro", variable=self.is_dark_mode, command=self.toggle_theme_event)
         self.theme_switch.pack(pady=5, padx=25, anchor="ne")
 
         # Botón para ver logs
-        self.btn_logs = ctk.CTkButton(self, text="Ver historial de Logs", fg_color="transparent", border_width=1, 
-                                      height=24, font=ctk.CTkFont(size=11),
-                                      command=lambda: os.startfile(self.appdata_dir))
+        self.btn_logs = ctk.CTkButton(self, text="Ver historial de Logs", fg_color="transparent", border_width=1, height=24, font=ctk.CTkFont(size=11), command=lambda: os.startfile(self.appdata_dir))
         self.btn_logs.pack(pady=5)
 
         # Secciones de Interfaz
@@ -108,13 +106,13 @@ class BackupPro(ctk.CTk):
         f = ctk.CTkFrame(self); f.pack(pady=5, padx=20, fill="x")
         ctk.CTkLabel(f, text=label, width=100, anchor="w").pack(side="left", padx=10)
         ctk.CTkLabel(f, textvariable=var, text_color="gray", wraplength=300).pack(side="left", padx=5, expand=True)
-        ctk.CTkButton(f, text="Cambiar", width=70, command=cmd).pack(side="right", padx=10)
+        ctk.CTkButton(f, text="Cambiar", width=70, command=cmd).pack(side="right", padx=0)
 
     def create_input_row(self, label, var, show=None):
         f = ctk.CTkFrame(self); f.pack(pady=3, padx=20, fill="x")
         ctk.CTkLabel(f, text=label, width=100, anchor="w").pack(side="left", padx=10)
         e = ctk.CTkEntry(f, textvariable=var, show=show)
-        e.pack(side="right", padx=10, fill="x", expand=True)
+        e.pack(side="right", padx=0, fill="x", expand=True)
         e.bind("<FocusOut>", lambda ev: self.save_settings())
 
     def toggle_theme_event(self):
